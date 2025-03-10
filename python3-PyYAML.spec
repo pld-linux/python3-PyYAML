@@ -8,7 +8,7 @@ Summary:	YAML parser and emitter module for Python 3
 Summary(pl.UTF-8):	Analizator i generator formatu YAML dla języka Python 3
 Name:		python3-%{module}
 Version:	6.0.1
-Release:	1
+Release:	2
 License:	MIT
 Group:		Libraries/Python
 #Source0Download: https://github.com/yaml/pyyaml/tags

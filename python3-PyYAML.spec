@@ -7,23 +7,23 @@
 Summary:	YAML parser and emitter module for Python 3
 Summary(pl.UTF-8):	Analizator i generator formatu YAML dla języka Python 3
 Name:		python3-%{module}
-Version:	6.0.1
-Release:	2
+Version:	6.0.2
+Release:	1
 License:	MIT
 Group:		Libraries/Python
 #Source0Download: https://github.com/yaml/pyyaml/tags
 Source0:	https://github.com/yaml/pyyaml/archive/%{version}/pyyaml-%{version}.tar.gz
-# Source0-md5:	e1ceb8ac30446570c787678c1301ceed
+# Source0-md5:	321ef2ea075ef818337247944c0a863b
 URL:		https://github.com/yaml/pyyaml
-BuildRequires:	python3-Cython < 3
-BuildRequires:	python3-devel >= 1:3.6
-BuildRequires:	python3-modules >= 1:3.6
+BuildRequires:	python3-Cython >= 3.0
+BuildRequires:	python3-devel >= 1:3.13
+BuildRequires:	python3-modules >= 1:3.13
 BuildRequires:	python3-setuptools
 BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(macros) >= 1.714
 BuildRequires:	sed >= 4.0
 BuildRequires:	yaml-devel >= 0.2.2
-Requires:	python3-modules >= 1:3.6
+Requires:	python3-modules >= 1:3.13
 Requires:	yaml >= 0.2.2
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 

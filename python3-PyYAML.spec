@@ -8,7 +8,7 @@ Summary:	YAML parser and emitter module for Python 3
 Summary(pl.UTF-8):	Analizator i generator formatu YAML dla języka Python 3
 Name:		python3-%{module}
 Version:	6.0.2
-Release:	2
+Release:	3
 License:	MIT
 Group:		Libraries/Python
 #Source0Download: https://github.com/yaml/pyyaml/tags
@@ -16,9 +16,14 @@ Source0:	https://github.com/yaml/pyyaml/archive/%{version}/pyyaml-%{version}.tar
 # Source0-md5:	321ef2ea075ef818337247944c0a863b
 URL:		https://github.com/yaml/pyyaml
 BuildRequires:	python3-Cython >= 3.0
+BuildRequires:	python3-build
 BuildRequires:	python3-devel >= 1:3.13
+BuildRequires:	python3-installer
+BuildRequires:	python3-wheel
 BuildRequires:	python3-modules >= 1:3.13
-BuildRequires:	python3-setuptools
+%if %{with tests}
+BuildRequires:	python3-pytest
+%endif
 BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(macros) >= 1.714
 BuildRequires:	sed >= 4.0
@@ -58,15 +63,20 @@ plików konfiguracyjnych po serializację i przechowywanie obiektów.
 %setup -q -n pyyaml-%{version}
 
 %build
-CC="%{__cc}" \
-CFLAGS="%{rpmcflags}" \
-%{__python3} setup.py --with-libyaml \
-	build --build-base build-3 %{?with_tests:test}
+%py3_build_pyproject
+
+%if %{with tests}
+%{__python3} -m zipfile -e build-3/*.whl build-3-test
+# use explicit plugins list for reliable builds (delete PYTEST_PLUGINS if empty)
+PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 \
+PYTEST_PLUGINS= \
+%{__python3} -m pytest -o pythonpath="$PWD/build-3-test" tests
+%endif
 
 %install
 rm -rf $RPM_BUILD_ROOT
 
-%py3_install
+%py3_install_pyproject
 
 install -d $RPM_BUILD_ROOT%{_examplesdir}/python3-PyYAML-%{version}
 cp -p examples/yaml-highlight/* $RPM_BUILD_ROOT%{_examplesdir}/python3-PyYAML-%{version}
@@ -85,5 +95,5 @@ rm -rf $RPM_BUILD_ROOT
 %{py3_sitedir}/yaml/*.py
 %{py3_sitedir}/yaml/__pycache__
 %attr(755,root,root) %{py3_sitedir}/yaml/_yaml.cpython-*.so
-%{py3_sitedir}/PyYAML-%{version}-py*.egg-info
+%{py3_sitedir}/PyYAML-%{version}.dist-info
 %{_examplesdir}/python3-PyYAML-%{version}

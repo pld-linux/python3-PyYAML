@@ -21,11 +21,12 @@ BuildRequires:	python3-devel >= 1:3.13
 BuildRequires:	python3-installer
 BuildRequires:	python3-wheel
 BuildRequires:	python3-modules >= 1:3.13
+BuildRequires:	python3-setuptools
 %if %{with tests}
 BuildRequires:	python3-pytest
 %endif
 BuildRequires:	rpm-pythonprov
-BuildRequires:	rpmbuild(macros) >= 1.714
+BuildRequires:	rpmbuild(macros) >= 2.044
 BuildRequires:	sed >= 4.0
 BuildRequires:	yaml-devel >= 0.2.2
 Requires:	python3-modules >= 1:3.13
@@ -95,5 +96,5 @@ rm -rf $RPM_BUILD_ROOT
 %{py3_sitedir}/yaml/*.py
 %{py3_sitedir}/yaml/__pycache__
 %attr(755,root,root) %{py3_sitedir}/yaml/_yaml.cpython-*.so
-%{py3_sitedir}/PyYAML-%{version}.dist-info
+%{py3_sitedir}/pyyaml-%{version}.dist-info
 %{_examplesdir}/python3-PyYAML-%{version}
